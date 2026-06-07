@@ -2,18 +2,21 @@ package com.dee.AirBnbApp.entity;
 
 import com.dee.AirBnbApp.entity.enums.BookingStatus;
 import jakarta.persistence.*;
-import lombok.Generated;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
 @Setter
 @Getter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,20 +38,16 @@ public class Booking {
     private  Integer roomsCount;
 
     @Column(nullable = false)
-    private LocalDateTime checkInDate;
+    private LocalDate checkInDate;
 
     @Column(nullable = false)
-    private LocalDateTime checkOutdate;
+    private LocalDate checkOutdate;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
     private LocalDateTime updateAt;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id")
-    private Payment payment;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -62,4 +61,7 @@ public class Booking {
 
     ) // Spring boot itself define new table without this configuration i.e @JoinTable.
     private Set<Guest> guests;
+
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal amount;
 }

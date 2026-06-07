@@ -1,9 +1,7 @@
 package com.dee.AirBnbApp.controller;
 
 import com.dee.AirBnbApp.dto.HotelDto;
-import com.dee.AirBnbApp.entity.Hotel;
 import com.dee.AirBnbApp.service.HotelService;
-import com.dee.AirBnbApp.service.HotelServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,7 +30,7 @@ public class HotelController {
         return ResponseEntity.ok(hotelDto);
     }
 
-    @PutMapping("/{hotelId")
+    @PutMapping("/{hotelId}")
     public ResponseEntity<HotelDto> updateHotelById(@PathVariable Long hotelId, @RequestBody HotelDto hotelDto){
         log.info("Attemping to update the Hotel detail for Id: {}", hotelId);
 
@@ -40,11 +38,19 @@ public class HotelController {
         return ResponseEntity.ok(hotelDto1);
     }
 
-    @PutMapping("/{hotelId")
-    public ResponseEntity<Void> updateHotelById(@PathVariable Long hotelId){
+    @DeleteMapping("/{hotelId}")
+    public ResponseEntity<Void> deleteHotelById(@PathVariable Long hotelId){
         log.info("Attemping to delete the Hotel detail for Id: {}", hotelId);
 
         hotelService.deleteHotelById(hotelId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{hotelId}")
+    public ResponseEntity<Void> activateHotelById(@PathVariable Long hotelId){
+        log.info("Attemping to active the Hotel detail for Id: {}", hotelId);
+
+        hotelService.activateHotel(hotelId);
         return ResponseEntity.noContent().build();
     }
 }
